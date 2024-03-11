@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.news-button,
+.image-button {
+  font-size: 60px;
+  cursor: pointer;
+}
+
+.image-button img {
+}
