@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Header from "../components/Header";
-import Articles from "../components/Articles";
+import Header from "./components/Header";
+import Articles from "./components/Articles";
+import SingleArticle from "./components/SingleArticle";
 import "./App.css";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Articles />} />
+        <Route path="/articles/:articleId" element={<SingleArticle />} />{" "}
       </Routes>
     </div>
   );
