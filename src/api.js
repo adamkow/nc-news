@@ -30,3 +30,15 @@ export const fetchCommentsByArticleId = async (articleId) => {
     console.log(error);
   }
 };
+
+export const updateVotes = async (articleId, incVotes) => {
+  try {
+    const response = await instance.patch(`articles/${articleId}`, {
+      inc_votes: incVotes,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
