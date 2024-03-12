@@ -4,6 +4,25 @@
   justify-content: center;
   align-items: center;
 }
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #898989;
+  border: none;
+  border-radius: 15px;
+}
+
+button:hover {
+  background-color: #8000ff;
+}
+
+button:active {
+  background-color: #5500ff;
+  transform: translateY(4px);
+}
 
 .comments-section {
   width: 40%;
