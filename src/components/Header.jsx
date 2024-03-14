@@ -9,11 +9,11 @@ export default function Header() {
       <Link to="/">
         <button className="news-button">NC News</button>
       </Link>
-      <Link to="/profile">
+      {/* <Link to="/profile">
         <button className="image-button">
           <img src="user image path" alt="Icon" />
         </button>
-      </Link>
+      </Link> */}
     </div>
   );
 }
