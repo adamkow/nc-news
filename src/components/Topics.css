@@ -1,0 +1,10 @@
+.topics-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.topics-buttons button {
+  margin: 0 5px; /* Adjust margin between buttons */
+}

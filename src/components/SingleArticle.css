@@ -23,7 +23,10 @@ button:active {
   background-color: #5500ff;
   transform: translateY(4px);
 }
-
+.description {
+  width: 45%;
+  margin: 0 auto;
+}
 .comments-section {
   width: 40%;
   margin: 0 auto;
