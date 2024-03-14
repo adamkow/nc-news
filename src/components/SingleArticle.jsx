@@ -97,6 +97,13 @@ export default function SingleArticle() {
                 <div key={comment.comment_id} className="comment">
                   <h3>{comment.author}</h3>
                   <p>{comment.body}</p>
+                  {comment.author === "cooljmessy" && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.comment_id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               ))
             ) : (
