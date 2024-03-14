@@ -62,6 +62,15 @@ export default function SingleArticle() {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteComment(commentId);
+      await fetchArticleAndComments();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="single-article">
       {article ? (
