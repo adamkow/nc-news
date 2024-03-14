@@ -11,6 +11,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Articles />} />
+        <Route path="/topics/:topicSlug" element={<Articles />} />
         <Route path="/articles/:articleId" element={<SingleArticle />} />{" "}
       </Routes>
     </div>

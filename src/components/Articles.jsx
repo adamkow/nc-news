@@ -1,55 +1,99 @@
 import React, { useState, useEffect } from "react";
-import { fetchAllArticles } from "../api";
+import { fetchAllArticles, fetchArticlesByTopic } from "../api";
 import "./Articles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FormatTime from "../util/FormatTime";
+import Topics from "./Topics";
+import Sort from "./Sort";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
+  const [sorting, setSorting] = useState({ field: "date", order: "desc" }); // Default sorting order set to "desc"
+  const navigate = useNavigate();
+  const { topicSlug } = useParams();
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const articlesData = await fetchAllArticles();
-        if (articlesData) {
+        let articlesData;
+        if (topicSlug) {
+          articlesData = await fetchArticlesByTopic(topicSlug);
+        } else {
+          articlesData = await fetchAllArticles();
+        }
+        if (articlesData && articlesData.article) {
           setArticles(articlesData.article);
+          console.log(articlesData.article);
+        } else {
+          setArticles([]);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        setArticles([]);
       }
     };
 
     fetchArticles();
-  }, []);
+  }, [topicSlug]);
 
-  const formatDate = (dateString) => {
-    return new Date(dateString)
-      .toLocaleString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-      .replace(",", " |");
+  const handleSortChange = (field) => {
+    setSorting({ ...sorting, field });
+  };
+
+  const toggleSortOrder = () => {
+    setSorting({
+      ...sorting,
+      order: sorting.order === "asc" ? "desc" : "asc",
+    });
+  };
+
+  const sortedArticles = articles.slice().sort((a, b) => {
+    if (sorting.field === "date") {
+      return sorting.order === "asc"
+        ? new Date(a.created_at) - new Date(b.created_at)
+        : new Date(b.created_at) - new Date(a.created_at);
+    } else if (sorting.field === "votes") {
+      return sorting.order === "asc" ? a.votes - b.votes : b.votes - a.votes;
+    } else if (sorting.field === "comment_count") {
+      return sorting.order === "asc"
+        ? a.comment_count - b.comment_count
+        : b.comment_count - a.comment_count;
+    }
+    return 0;
+  });
+
+  const onSelectTopic = (topicSlug) => {
+    if (topicSlug === null) {
+      navigate(`/`);
+    } else {
+      navigate(`/topics/${topicSlug}`);
+    }
   };
 
   return (
     <div className="articles-list">
-      {articles.length > 0 ? (
-        articles.map((article) => (
+      <div className="row">
+        <Topics onSelectTopic={onSelectTopic} />
+        <Sort
+          onSortChange={handleSortChange}
+          toggleSortOrder={toggleSortOrder}
+        />
+      </div>
+      {sortedArticles.length > 0 ? (
+        sortedArticles.map((article) => (
           <div key={article.article_id} className="single-article">
             <h1>{article.title}</h1>
             <Link to={`/articles/${article.article_id}`}>
               <img src={article.article_img_url} alt={article.title} />
             </Link>
             <p>{article.content}</p>
-            <FormatTime dateString={article.created_at} />{" "}
+            <FormatTime dateString={article.created_at} />
             <p>Votes: {article.votes}</p>
+            <p>Comments: {article.comment_count}</p>
           </div>
         ))
       ) : (
-        <div>Loading...</div>
+        <div>No articles found.</div>
       )}
     </div>
   );
