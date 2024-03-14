@@ -62,6 +62,15 @@ export default function SingleArticle() {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await deleteComment(commentId);
+      await fetchArticleAndComments();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="single-article">
       {article ? (
@@ -97,6 +106,13 @@ export default function SingleArticle() {
                 <div key={comment.comment_id} className="comment">
                   <h3>{comment.author}</h3>
                   <p>{comment.body}</p>
+                  {comment.author === "cooljmessy" && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.comment_id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               ))
             ) : (
