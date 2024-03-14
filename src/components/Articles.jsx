@@ -5,13 +5,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import FormatTime from "../util/FormatTime";
 import Topics from "./Topics";
 import Sort from "./Sort";
+import NotFound from "./NotFound";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [sorting, setSorting] = useState({ field: "date", order: "desc" }); // Default sorting order set to "desc"
   const navigate = useNavigate();
   const { topicSlug } = useParams();
-
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -23,7 +23,6 @@ export default function Articles() {
         }
         if (articlesData && articlesData.article) {
           setArticles(articlesData.article);
-          console.log(articlesData.article);
         } else {
           setArticles([]);
         }
@@ -35,6 +34,15 @@ export default function Articles() {
 
     fetchArticles();
   }, [topicSlug]);
+
+  if (articles.length === 0) {
+    return (
+      <NotFound
+        type="Topic"
+        message="No articles found for this topic or the topic does not exist."
+      />
+    );
+  }
 
   const handleSortChange = (field) => {
     setSorting({ ...sorting, field });
