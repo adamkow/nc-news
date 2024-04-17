@@ -4,6 +4,8 @@ NC News is a web application built on React using the NC News API. It allows use
 
 Visit [https://nc-adam-news.netlify.app](https://nc-adam-news.netlify.app) in your web browser to view the app.
 
+note: API may take some time to load
+
 ## Getting Started
 
 To use the NC News App, you can follow these steps:
